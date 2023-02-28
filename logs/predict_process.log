@@ -1,0 +1,9 @@
+2023-02-04 18:24:31,499 automl_tabular_predict predict.py predict set_logger INFO: logger 세팅
+2023-02-04 18:24:31,499 automl_tabular_predict predict.py predict read_test_data INFO: test 데이터를 불러옵니다
+2023-02-04 18:24:31,515 automl_tabular_predict predict.py predict id_predicting INFO: 예측을 위한 id 분리
+2023-02-04 18:24:31,516 automl_tabular_predict predict.py predict standardize INFO: 예측데이터 표준화
+2023-02-04 18:24:31,531 automl_tabular_predict predict.py predict label_encoder INFO: 예측데이터 인코딩
+2023-02-04 18:24:31,532 automl_tabular_predict predict.py predict label_encoder INFO: 라벨 인코더 불러오기
+2023-02-04 18:24:31,540 automl_tabular_predict predict.py predict get_pred_df INFO: 예측시작
+2023-02-04 18:24:31,541 automl_tabular_predict predict.py predict get_pred_df INFO: 모델 불러오기
+2023-02-04 18:24:31,555 automl_tabular_predict predict.py predict get_pred_df INFO: model_name : lgb

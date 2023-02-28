@@ -1,0 +1,65 @@
+2023-01-09 17:10:58,881 automl_tabular main.py main set_logger INFO: logger 세팅
+2023-01-09 17:10:58,882 automl_tabular input_data.py input_data read_data INFO: csv 데이터 불러오기
+2023-01-09 17:10:58,932 automl_tabular input_data.py input_data reduce_mem_usage INFO: Memory usage of dataframe is 0.51MB
+2023-01-09 17:10:58,974 automl_tabular input_data.py input_data reduce_mem_usage INFO: Memory usage after optimization is: 0.27MB
+2023-01-09 17:10:58,975 automl_tabular input_data.py input_data reduce_mem_usage INFO: Decreased by 48.1%
+2023-01-09 17:10:58,976 automl_tabular preprocess.py preprocess id_target_preprocess INFO: 전처리를 위한 id와 target 분리
+2023-01-09 17:10:58,986 automl_tabular preprocess.py preprocess na_preprocess INFO: 결측치 처리
+2023-01-09 17:10:59,004 automl_tabular preprocess.py preprocess outlier_preprocess INFO: 이상치 제거
+2023-01-09 17:10:59,038 automl_tabular preprocess.py preprocess standardize INFO: 정규화 진행
+2023-01-09 17:10:59,059 automl_tabular preprocess.py preprocess label_encoder INFO: 라벨 인코딩 진행
+2023-01-09 17:10:59,137 automl_tabular preprocess.py preprocess get_df INFO: 전처리 완료
+2023-01-09 17:10:59,138 automl_tabular preprocess.py preprocess get_df INFO: 
+
+2023-01-09 17:10:59,139 automl_tabular preprocess.py preprocess get_df INFO:    phone_number  international_plan  voice_mail_plan  total_day_minutes  \
+0        1630.0                 0.0              1.0           1.612087   
+1        1339.0                 0.0              1.0          -0.348305   
+2         952.0                 0.0              0.0           1.201993   
+3          94.0                 1.0              0.0          -0.251115   
+4        1890.0                 1.0              0.0           0.822715   
+
+   total_day_charge  total_eve_minutes  total_eve_charge  total_night_minutes  \
+0          1.613401          -0.078071         -0.077047             0.892895   
+1         -0.349224          -0.116182         -0.114412             1.090021   
+2          1.202051          -1.626660         -1.627678            -0.789082   
+3         -0.251616          -1.076587         -1.074682            -0.292425   
+4          0.822076           0.394510          0.393747             0.055747   
+
+   total_night_charge  total_intl_minutes  total_intl_charge  account_length  \
+0            0.890224           -0.118781          -0.120695        0.702048   
+1            1.092898            1.306394           1.304861        0.167554   
+2           -0.788064            0.729108           0.720160        0.931116   
+3           -0.293822           -0.079694          -0.076146       -0.646913   
+4            0.058192           -1.542452          -1.544859        0.447527   
+
+   area_code  number_vmail_messages  total_day_calls  total_eve_calls  \
+0  -0.527236               1.231295         0.490233        -0.054029   
+1  -0.527236               1.304260         1.163556         0.154072   
+2  -0.527236              -0.592827         0.697409         0.518249   
+3  -0.527236              -0.592827         0.645615         1.142552   
+4   1.707017              -0.592827        -0.131295         0.050021   
+
+   total_night_calls  total_intl_calls  customer_service_calls state  churn  
+0          -0.474191         -0.632924               -0.312354    KS      0  
+1           0.155519         -0.632924               -0.312354    OH      0  
+2           0.207994          0.331597               -1.337928    NJ      0  
+3           1.100083         -0.632924                1.738794    OK      0  
+4           0.942656          0.813857               -1.337928    AL      0  
+2023-01-09 17:10:59,215 automl_tabular modeling.py modeling id_modeling INFO: 모델링을 위한 id 분리
+2023-01-09 17:10:59,225 automl_tabular modeling.py modeling train_test_split INFO: train valid 분리
+2023-01-09 17:10:59,235 automl_tabular modeling.py modeling train_test_split INFO: 불균형 처리
+2023-01-09 17:10:59,267 automl_tabular modeling.py modeling train_test_split INFO: train valid 분리 후
+2023-01-09 17:10:59,268 automl_tabular modeling.py modeling train_test_split INFO: X_train.shape: (3972, 19)
+2023-01-09 17:10:59,269 automl_tabular modeling.py modeling train_test_split INFO: X_test.shape : (561, 19)
+2023-01-09 17:10:59,270 automl_tabular modeling.py modeling train_test_split INFO: y_train.shape: (3972, 1)
+2023-01-09 17:10:59,270 automl_tabular modeling.py modeling train_test_split INFO: y_test.shape : (561, 1)
+2023-01-09 17:10:59,271 automl_tabular modeling.py modeling get_tabnet_param INFO: tabnet params 세팅
+2023-01-09 17:10:59,287 automl_tabular modeling.py modeling get_tabnet_param INFO: tabnet_param : {'cat_idxs': [0, 1, 2], 'cat_dims': [2804, 2, 2]}
+2023-01-09 17:10:59,288 automl_tabular modeling.py modeling get_tabnet_param INFO: tabnet params를 object storage에 저장
+2023-01-09 17:10:59,294 automl_tabular modeling.py modeling tab_fit_predict INFO: tabnet 모델 세팅
+2023-01-09 17:10:59,298 automl_tabular modeling.py modeling tab_fit_predict INFO: tabnet 모델 fitting
+2023-01-09 18:07:01,073 automl_tabular modeling.py modeling get_best_model INFO: Auto ML 가동
+2023-01-09 18:07:01,074 automl_tabular modeling.py modeling get_best_model INFO: best_model_name: tab_clf_0
+2023-01-09 18:07:01,075 automl_tabular modeling.py modeling get_best_model INFO: best 모델 저장
+2023-01-09 18:07:01,496 automl_tabular modeling.py modeling get_eval INFO: best 모델 검증
+2023-01-09 18:07:01,668 automl_tabular modeling.py modeling get_plot INFO: 검증 결과 시각화
