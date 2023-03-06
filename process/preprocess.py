@@ -41,14 +41,18 @@ class Preprocessing:
     def na_preprocess(self, df, num_var, obj_var, anomaly_per):
         
         self.logger.info('결측치 처리')        
+        
+        try:
+            obj_data = df.loc[:, obj_var]
+            obj_data.fillna("NaN", inplace=True)
 
-        obj_data = df.loc[:, obj_var]
-        obj_data.fillna("NaN", inplace=True)
-        
-        num_data = df.loc[:, num_var] 
-        num_data.fillna(num_data.mean(), inplace=True)
-        
-        df = pd.concat([obj_data, num_data], axis=1)
+            num_data = df.loc[:, num_var] 
+            num_data.fillna(num_data.mean(), inplace=True)
+
+            df = pd.concat([obj_data, num_data], axis=1)
+        except:
+            self.logger.exception('결측치 처리에 문제가 발생하였습니다')
+            
         self.logger.info(f'결측치 처리 이후 데이터 구성: {df.shape[0]} 행, {df.shape[1]}열')                  
         
         return df

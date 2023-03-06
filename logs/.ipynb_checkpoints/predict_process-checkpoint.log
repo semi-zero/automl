@@ -1,0 +1,6 @@
+2023-03-06 09:39:02,266 automl_tabular_predict predict.py predict set_logger INFO: logger 세팅
+2023-03-06 09:39:02,281 automl_tabular_predict predict.py predict read_test_data ERROR: test 데이터 불러오기가 실패했습니다
+Traceback (most recent call last):
+  File "predict.py", line 84, in read_test_data
+    var_list = test_df.columns.tolist() #전체 변수리스트 추출
+NameError: name 'test_df' is not defined

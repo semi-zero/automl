@@ -45,7 +45,7 @@ class Predict:
         self.unique_id = unique_id
         self.logger = logging.getLogger(log_name)
         
-        self.test_ori_df, self.var_list, self.num_var, self.obj_var = self.read_test_data()
+        self.test_ori_df, self.var_list, self.num_var, self.obj_var = self.read_test_data(self.test_path)
         
         self.test_df = self.id_predicting(self.test_ori_df, self.unique_id) 
                                          
@@ -59,35 +59,41 @@ class Predict:
         
         
     # 데이터 불러오기
-    def read_test_data(self):
+    def read_test_data(self, test_path):
         
-        self.logger.info('test 데이터를 불러옵니다')
-         try:
-            for data_read in [pd.read_csv(self.test_path, encoding='cp949'),
-                              pd.read_csv(self.test_path, encoding='utf-8'),
-                              pd.read_csv(self.test_path)]:
-                try:
-                    test_df = data_read
-                
-                except: continue
-    
-                if test_df.empty == False:
-                    break
-                
+        #코드 수정해야 함 
+        
+        
+        try:
+            test_df = pd.read_csv(test_path)
+            
         except:
-            self.logger.info('데이터 포맷을 맞춰주세요')
+            
+            try:
+                test_df = pd.read_csv(test_path, encoding='cp949')
+            
+            except:
+                
+                try:
+                    test_df = pd.read_csv(test_path, encoding='utf-8')
+                
+                except:
+                    self.logger.info('데이터 포맷을 맞춰주세요')
             
         try:
             var_list = test_df.columns.tolist() #전체 변수리스트 추출
             num_var = test_df.select_dtypes(include='float').columns.tolist() + test_df.select_dtypes(include='int').columns.tolist() #수치형 변수 추출
             obj_var = [x for x in test_df.columns if x not in num_var] #문자형 변수 추출
-            print(test_df['phone_number'].nunique())
+            
         except:
             self.logger.exception('test 데이터 불러오기가 실패했습니다')
             
         return test_df, var_list, num_var, obj_var
     
+    
+    
     #테스트 데이터 정합성
+    
     
     def id_predicting(self, df, unique_id):
         
@@ -154,28 +160,34 @@ class Predict:
     
     def get_pred_df(self, test_df, storage_path, test_ori_df):
         
-        self.logger.info('예측시작')
+        self.logger.info('모델 불러오기 시작')
         
         try:
-            self.logger.info('모델 불러오기')
+            
             model_path = glob.glob(storage_path+'/*model*')[0]
             load_model=joblib.load(model_path)
         
-            name_path = glob.glob(storage_path+'/*name*')[0]
+#             name_path = glob.glob(storage_path+'/*name*')[0]
             
-            with open(name_path) as f:
-                model_name = json.load(f)
+#             with open(name_path) as f:
+#                 model_name = json.load(f)
             
-            self.logger.info(f"model_name : {model_name['best_model_name']}")
+#             self.logger.info(f"model_name : {model_name['best_model_name']}")
             
-            if 'tab' in model_name['best_model_name']:
+            try:
+                self.logger.info('예측 시작')
                 pred = load_model.predict(test_df.values)
                 pred_proba = load_model.predict_proba(test_df.values)
                 
             
-            else : 
-                pred = load_model.predict(test_df)
-                pred_proba = load_model.predict_proba(test_df)
+            except :
+                
+                try:
+                    pred = load_model.predict(test_df)
+                    pred_proba = load_model.predict_proba(test_df)
+                
+                except:
+                    self.logger.exception('예측 실패') 
         
             test_ori_df['pred'] = pred
             test_ori_df['pred_proba'] = pred_proba[:,1]
@@ -184,7 +196,7 @@ class Predict:
             test_ori_df.to_csv('prediction.csv', index=False)
         
         except:
-            self.logger.exception('예측 실패')
+            self.logger.exception('모델 불러오기 실패')
         
         return test_ori_df
     
@@ -194,6 +206,7 @@ if __name__ == "__main__":
     set_logger(log_name)
     Predict(test_path=args.PATH, storage_path=args.storage, unique_id=args.unique_id)
     
-    #python predict.py -pth storage/test_churn.csv -storage storage -id state
+    #python predict.py -pth storage/data/churn_test.csv -storage storage/model -id state
+    #python predict.py -pth storage/data/churn2_test.csv -storage storage/model -id customerID
     
     
