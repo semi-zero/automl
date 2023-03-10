@@ -23,7 +23,7 @@ from . import hpo
 
 class Modeling:
     def __init__(self, log_name, data, obj_var, target, unique_id, model_type='auto', OVER_SAMPLING=True, HPO=False):
-        self.df = data                          #데이터
+        self.ori_df = data                          #데이터
         self.target = target                    #타겟 변수 지정
         self.unique_id = unique_id
         self.over_sampling = OVER_SAMPLING      #오버 샘플링 여부
@@ -39,7 +39,7 @@ class Modeling:
         self.start_time = datetime.datetime.now()
         
         #모델링 준비
-        self.df = self.id_modeling(self.df, self.unique_id)
+        self.df = self.id_modeling(self.ori_df, self.unique_id)
         self.X_train, self.X_test, self.y_train, self.y_test = self.train_test_split(self.df, self.target, self.over_sampling)
         
         # 결과값 딕셔너리
@@ -65,7 +65,7 @@ class Modeling:
         
         #2. 학습 결과 비교 화면
         #3. 변수 중요도
-        self.test_score, self.valid_score, self.fi = self.get_eval(self.best_model_name, self.best_model, self.best_test, self.X_test)
+        self.test_score, self.valid_score, self.fi = self.get_eval(self.best_model_name, self.best_model, self.best_test, self.ori_df, self.unique_id, self.target)
         
         
         self.to_result_page()
@@ -356,7 +356,7 @@ class Modeling:
 
             y_pred_proba = tab.predict_proba(X_test_values)[:,1]
             y_pred = tab.predict(X_test_values)
-
+            
             self.model['tab'] = tab
             self.test['tab'] = (X_test_values, y_test_values)   
             
@@ -366,6 +366,7 @@ class Modeling:
             self.score['precision']['tab'] = precision_score(y_test, y_pred)
             self.score['recall']['tab']    = recall_score(y_test, y_pred)
             self.score['f1']['tab']        = f1_score(y_test, y_pred)
+            
             
         
         except:
@@ -421,7 +422,7 @@ class Modeling:
         return report
             
             
-    def get_eval(self, best_model_name, best_model, best_test, column_X_test):
+    def get_eval(self, best_model_name, best_model, best_test, ori_df, unique_id, target):
         
         self.logger.info('best 모델 검증')
         
@@ -462,14 +463,29 @@ class Modeling:
                                   
         self.logger.info('변수 중요도 저장')
         try:
+            
+            id_df = ori_df[[unique_id]]
+            df = ori_df.drop([unique_id, target], axis=1)
+            print(df.shape)
+            
             #변수 중요도 저장
             if 'tab' in best_model_name: 
                 feat_importances = best_model.feature_importances_
-            else : feat_importances = best_model.feature_importances_
+                
+                
+                #tabnet의 경우 instance별 변수 중요도를 도출할 수 있음
+                explain, _ = best_model.explain(df.values)
+                instance_ = pd.DataFrame(explain, columns = df.columns)
+                instance_importance = instance_.div(instance_.sum(axis=1), axis=0)
+                instance_importance = pd.concat([id_df, instance_importance], axis=1)
+                instance_importance.to_csv('instance_importance.csv', index=False)
+                
+            else : 
+                feat_importances = best_model.feature_importances_
             
             
             #fi_df = pd.DataFrame(fi.reshape(1,-1), columns = X_test.columns)
-            fi_df = pd.DataFrame(feat_importances, index=column_X_test.columns).sort_values(0, ascending=False)
+            fi_df = pd.DataFrame(feat_importances, index=df.columns).sort_values(0, ascending=False)
 
         except:
             self.logger.exception('모델 결과값들을 저장했습니다')

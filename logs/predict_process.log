@@ -1,7 +1,7 @@
-2023-03-06 09:52:42,753 automl_tabular_predict predict.py predict set_logger INFO: logger 세팅
-2023-03-06 09:52:42,770 automl_tabular_predict predict.py predict id_predicting INFO: 예측을 위한 id 분리
-2023-03-06 09:52:42,774 automl_tabular_predict predict.py predict standardize INFO: 예측데이터 표준화
-2023-03-06 09:52:42,781 automl_tabular_predict predict.py predict label_encoder INFO: 예측데이터 인코딩
-2023-03-06 09:52:42,783 automl_tabular_predict predict.py predict label_encoder INFO: 라벨 인코더 불러오기
-2023-03-06 09:52:42,799 automl_tabular_predict predict.py predict get_pred_df INFO: 모델 불러오기 시작
-2023-03-06 09:52:42,822 automl_tabular_predict predict.py predict get_pred_df INFO: 예측 시작
+2023-03-09 19:28:05,630 automl_tabular_predict predict.py predict set_logger INFO: logger 세팅
+2023-03-09 19:28:05,649 automl_tabular_predict predict.py predict id_predicting INFO: 예측을 위한 id 분리
+2023-03-09 19:28:05,650 automl_tabular_predict predict.py predict standardize INFO: 예측데이터 표준화
+2023-03-09 19:28:05,662 automl_tabular_predict predict.py predict label_encoder INFO: 예측데이터 인코딩
+2023-03-09 19:28:05,664 automl_tabular_predict predict.py predict label_encoder INFO: 라벨 인코더 불러오기
+2023-03-09 19:28:05,667 automl_tabular_predict predict.py predict get_pred_df INFO: 모델 불러오기 시작
+2023-03-09 19:28:05,676 automl_tabular_predict predict.py predict get_pred_df INFO: 예측 시작

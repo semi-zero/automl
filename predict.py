@@ -143,7 +143,7 @@ class Predict:
             #라벨 인코더 불러오기
             self.logger.info('라벨 인코더 불러오기')
             
-            with open(f'{storage_path}/label_encoder.sav', mode='rb') as f:
+            with open(f'{storage_path}/label_encoder.pkl', mode='rb') as f:
                 test_enc = pickle.load(f)
             
             for var in obj_var:
@@ -179,16 +179,10 @@ class Predict:
                 pred = load_model.predict(test_df.values)
                 pred_proba = load_model.predict_proba(test_df.values)
                 
-            
-            except :
+            except:
                 
-                try:
-                    pred = load_model.predict(test_df)
-                    pred_proba = load_model.predict_proba(test_df)
+                self.logger.exception('예측 실패') 
                 
-                except:
-                    self.logger.exception('예측 실패') 
-        
             test_ori_df['pred'] = pred
             test_ori_df['pred_proba'] = pred_proba[:,1]
         

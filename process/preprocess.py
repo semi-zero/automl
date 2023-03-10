@@ -127,7 +127,7 @@ class Preprocessing:
                 obj_data = obj_data.apply(lambda x:lbl_en[x.name].fit_transform(x))
             
                 #라벨 인코딩 저장    
-                pickle.dump(lbl_en, open('storage/model/label_encoder.sav', 'wb'))
+                pickle.dump(lbl_en, open('storage/model/label_encoder.pkl', 'wb'))
                 
             
                 tmp_df = pd.concat([obj_data, non_obj_data], axis=1)

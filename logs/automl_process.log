@@ -1,13 +1,13 @@
-2023-03-06 09:51:47,799 automl_tabular main.py main set_logger INFO: logger 세팅
-2023-03-06 09:51:47,799 automl_tabular input_data.py input_data read_data INFO: csv 데이터 불러오기
-2023-03-06 09:51:47,799 automl_tabular input_data.py input_data read_data INFO: storage/data/churn2.csv
-2023-03-06 09:51:47,826 automl_tabular input_data.py input_data read_data INFO: 변수 분리 시작
-2023-03-06 09:51:47,829 automl_tabular input_data.py input_data reduce_mem_usage INFO: 데이터 구성: 7043 행, 21열
-2023-03-06 09:51:47,830 automl_tabular input_data.py input_data reduce_mem_usage INFO: Memory usage of dataframe is 1.13MB
-2023-03-06 09:51:47,857 automl_tabular input_data.py input_data reduce_mem_usage INFO: Memory usage after optimization is: 0.77MB
-2023-03-06 09:51:47,857 automl_tabular input_data.py input_data reduce_mem_usage INFO: Decreased by 31.7%
-2023-03-06 09:51:47,857 automl_tabular preprocess.py preprocess na_preprocess INFO: 결측치 처리
-2023-03-06 09:51:47,859 automl_tabular preprocess.py preprocess na_preprocess ERROR: 결측치 처리에 문제가 발생하였습니다
+2023-03-09 19:25:31,661 automl_tabular main.py main set_logger INFO: logger 세팅
+2023-03-09 19:25:31,661 automl_tabular input_data.py input_data read_data INFO: csv 데이터 불러오기
+2023-03-09 19:25:31,661 automl_tabular input_data.py input_data read_data INFO: storage/data/churn.csv
+2023-03-09 19:25:31,694 automl_tabular input_data.py input_data read_data INFO: 변수 분리 시작
+2023-03-09 19:25:31,707 automl_tabular input_data.py input_data reduce_mem_usage INFO: 데이터 구성: 3333 행, 21열
+2023-03-09 19:25:31,708 automl_tabular input_data.py input_data reduce_mem_usage INFO: Memory usage of dataframe is 0.51MB
+2023-03-09 19:25:31,720 automl_tabular input_data.py input_data reduce_mem_usage INFO: Memory usage after optimization is: 0.27MB
+2023-03-09 19:25:31,720 automl_tabular input_data.py input_data reduce_mem_usage INFO: Decreased by 48.1%
+2023-03-09 19:25:31,720 automl_tabular preprocess.py preprocess na_preprocess INFO: 결측치 처리
+2023-03-09 19:25:31,721 automl_tabular preprocess.py preprocess na_preprocess ERROR: 결측치 처리에 문제가 발생하였습니다
 Traceback (most recent call last):
   File "C:\Users\LDCC\Desktop\eco_code\automl\process\preprocess.py", line 47, in na_preprocess
     obj_data.fillna("NaN", inplace=True)
@@ -28,76 +28,83 @@ Traceback (most recent call last):
   File "C:\Users\LDCC\anaconda3\envs\practice\lib\site-packages\pandas\core\arrays\categorical.py", line 2045, in _validate_setitem_value
     "Cannot setitem on a Categorical with a new "
 ValueError: Cannot setitem on a Categorical with a new category, set the categories first
-2023-03-06 09:51:47,868 automl_tabular preprocess.py preprocess na_preprocess INFO: 결측치 처리 이후 데이터 구성: 7043 행, 21열
-2023-03-06 09:51:47,868 automl_tabular preprocess.py preprocess id_target_preprocess INFO: 전처리를 위한 id와 target 분리
-2023-03-06 09:51:47,871 automl_tabular preprocess.py preprocess standardize INFO: 정규화 진행
-2023-03-06 09:51:47,878 automl_tabular preprocess.py preprocess label_encoder INFO: 라벨 인코딩 진행
-2023-03-06 09:51:47,914 automl_tabular preprocess.py preprocess get_df INFO: 전처리 완료
-2023-03-06 09:51:47,914 automl_tabular preprocess.py preprocess get_df INFO: 
+2023-03-09 19:25:31,772 automl_tabular preprocess.py preprocess na_preprocess INFO: 결측치 처리 이후 데이터 구성: 3333 행, 21열
+2023-03-09 19:25:31,773 automl_tabular preprocess.py preprocess id_target_preprocess INFO: 전처리를 위한 id와 target 분리
+2023-03-09 19:25:31,784 automl_tabular preprocess.py preprocess standardize INFO: 정규화 진행
+2023-03-09 19:25:31,793 automl_tabular preprocess.py preprocess label_encoder INFO: 라벨 인코딩 진행
+2023-03-09 19:25:31,800 automl_tabular preprocess.py preprocess get_df INFO: 전처리 완료
+2023-03-09 19:25:31,800 automl_tabular preprocess.py preprocess get_df INFO: 
 
-2023-03-06 09:51:47,914 automl_tabular preprocess.py preprocess get_df INFO:    gender  Partner  Dependents  PhoneService  MultipleLines  InternetService  \
-0       0        1           0             0              1                0   
-1       1        0           0             1              0                0   
-2       1        0           0             1              0                0   
-3       1        0           0             0              1                0   
-4       0        0           0             1              0                1   
+2023-03-09 19:25:31,801 automl_tabular preprocess.py preprocess get_df INFO:    phone_number  international_plan  voice_mail_plan  total_day_minutes  \
+0          1926                   0                1           1.564919   
+1          1575                   0                1          -0.333276   
+2          1117                   0                0           1.167836   
+3          1707                   1                0           2.198416   
+4           110                   1                0          -0.239170   
 
-   OnlineSecurity  OnlineBackup  DeviceProtection  TechSupport  StreamingTV  \
-0               0             2                 0            0            0   
-1               2             0                 2            0            0   
-2               2             2                 0            0            0   
-3               2             0                 2            2            0   
-4               0             0                 0            0            0   
+   total_day_charge  total_eve_minutes  total_eve_charge  total_night_minutes  \
+0          1.566206          -0.071112         -0.070136             0.867661   
+1         -0.334166          -0.108089         -0.106389             1.057999   
+2          1.167904          -1.573623         -1.574625            -0.756399   
+3          2.197412          -2.742723         -2.742869            -0.079089   
+4         -0.239653          -1.039918         -1.038084            -0.276844   
 
-   StreamingMovies  Contract  PaperlessBilling  PaymentMethod  TotalCharges  \
-0                0         0                 1              2          2505   
-1                0         1                 0              3          1466   
-2                0         0                 1              3           157   
-3                0         1                 0              0          1400   
-4                0         0                 1              2           925   
+   total_night_charge  total_intl_minutes  total_intl_charge  account_length  \
+0            0.865064           -0.085008          -0.086768        0.676489   
+1            1.060760            1.241602           1.240099        0.149065   
+2           -0.755436            0.704241           0.695876        0.902528   
+3           -0.079083           -1.302466          -1.306086       -0.428590   
+4           -0.278212           -0.048624          -0.045303       -0.654629   
 
-   MonthlyCharges  SeniorCitizen    tenure  customerID  Churn  
-0       -1.160156      -0.439697 -1.277344  7590-VHVEG      0  
-1       -0.260010      -0.439697  0.066345  5575-GNVDE      0  
-2       -0.363037      -0.439697 -1.237305  3668-QPYBK      1  
-3       -0.746094      -0.439697  0.514160  7795-CFOCW      0  
-4        0.196899      -0.439697 -1.237305  9237-HQITU      1  
-2023-03-06 09:51:47,923 automl_tabular modeling.py modeling id_modeling INFO: 모델링을 위한 id 분리
-2023-03-06 09:51:47,924 automl_tabular modeling.py modeling train_test_split INFO: train valid 분리
-2023-03-06 09:51:47,928 automl_tabular modeling.py modeling train_test_split INFO: 불균형 처리
-2023-03-06 09:51:47,982 automl_tabular modeling.py modeling train_test_split INFO: train valid 분리 후
-2023-03-06 09:51:47,983 automl_tabular modeling.py modeling train_test_split INFO: X_train.shape: (8222, 19)
-2023-03-06 09:51:47,983 automl_tabular modeling.py modeling train_test_split INFO: X_test.shape : (1409, 19)
-2023-03-06 09:51:47,983 automl_tabular modeling.py modeling train_test_split INFO: y_train.shape: (8222, 1)
-2023-03-06 09:51:47,983 automl_tabular modeling.py modeling train_test_split INFO: y_test.shape : (1409, 1)
-2023-03-06 09:51:47,984 automl_tabular modeling.py modeling lr_fit_predict INFO: lr 모델 hpo 세팅
-2023-03-06 09:51:47,984 automl_tabular modeling.py modeling lr_fit_predict INFO: 세팅된 parameters : {'C': 1.0, 'class_weight': None, 'solver': 'lbfgs'}
-2023-03-06 09:51:47,984 automl_tabular modeling.py modeling lr_fit_predict INFO: lr 모델 fitting
-2023-03-06 09:51:48,048 automl_tabular modeling.py modeling rf_fit_predict INFO: rf 모델 hpo 세팅
-2023-03-06 09:51:48,049 automl_tabular modeling.py modeling rf_fit_predict INFO: 세팅된 parameters : {'n_estimators': 10, 'max_depth': None, 'min_samples_split': 2, 'min_samples_leaf': 1}
-2023-03-06 09:51:48,049 automl_tabular modeling.py modeling rf_fit_predict INFO: rf 모델 fitting
-2023-03-06 09:51:48,120 automl_tabular modeling.py modeling lgb_fit_predict INFO: lgbm 모델 hpo 세팅
-2023-03-06 09:51:48,120 automl_tabular modeling.py modeling lgb_fit_predict INFO: 세팅된 parameters : {'num_leaves': [60], 'min_child_samples': [10], 'max_depth': [5], 'learning_rate': [0.1], 'reg_alpha': [0.01]}
-2023-03-06 09:51:48,120 automl_tabular modeling.py modeling lgb_fit_predict INFO: lgbm 모델 fitting
-2023-03-06 09:51:48,237 automl_tabular modeling.py modeling get_tabnet_param INFO: tabnet params 세팅
-2023-03-06 09:51:48,251 automl_tabular modeling.py modeling get_tabnet_param INFO: tabnet_param : {'cat_idxs': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 'cat_dims': [2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 4, 6531]}
-2023-03-06 09:51:48,252 automl_tabular modeling.py modeling get_tabnet_param INFO: tabnet params를 object storage에 저장
-2023-03-06 09:51:48,254 automl_tabular modeling.py modeling tab_fit_predict INFO: tabnet 모델 세팅
-2023-03-06 09:51:48,255 automl_tabular modeling.py modeling tab_fit_predict INFO: 세팅된 parameters : {'mask_type': 'entmax', 'n_da': 8, 'n_steps': 3, 'gamma': 1.3, 'n_shared': 2, 'lambda_sparse': 0.001, 'patience': 10, 'epochs': 2}
-2023-03-06 09:51:48,255 automl_tabular modeling.py modeling tab_fit_predict INFO: tabnet 모델 fitting
-2023-03-06 09:52:20,403 automl_tabular modeling.py modeling get_best_model INFO: Auto ML 가동
-2023-03-06 09:52:20,404 automl_tabular modeling.py modeling get_best_model INFO: automl_score:{'auroc': {'lr': 0.8377737236200307, 'rf': 0.7964847552188974, 'lgb': 0.8415149076395195, 'tab': 0.7019260572379404}, 'aucpr': {'lr': 0.6315847224391414, 'rf': 0.5216681387008829, 'lgb': 0.6282860201736782, 'tab': 0.3824952206422016}, 'accuracy': {'lr': 0.7615330021291696, 'rf': 0.7622427253371186, 'lgb': 0.7835344215755855, 'tab': 0.2803406671398155}, 'precision': {'lr': 0.5098039215686274, 'rf': 0.5150684931506849, 'lgb': 0.5508684863523573, 'tab': 0.2533234859675037}, 'recall': {'lr': 0.7514450867052023, 'rf': 0.5433526011560693, 'lgb': 0.6416184971098265, 'tab': 0.9913294797687862}, 'f1': {'lr': 0.6074766355140186, 'rf': 0.5288326300984528, 'lgb': 0.5927903871829104, 'tab': 0.4035294117647059}}
-2023-03-06 09:52:20,404 automl_tabular modeling.py modeling get_best_model INFO: best_model_name: lgb
-2023-03-06 09:52:20,404 automl_tabular modeling.py modeling get_best_model INFO: best 모델 저장
-2023-03-06 09:52:20,413 automl_tabular modeling.py modeling make_report INFO: 학습 결과를 위한 결과물 생성
-2023-03-06 09:52:20,414 automl_tabular modeling.py modeling get_eval INFO: best 모델 검증
-2023-03-06 09:52:20,423 automl_tabular modeling.py modeling get_eval INFO: 오차행렬 
- : [[882 181]
- [124 222]]
-2023-03-06 09:52:20,424 automl_tabular modeling.py modeling get_eval INFO: 정확도 : 0.7835344215755855
-2023-03-06 09:52:20,426 automl_tabular modeling.py modeling get_eval INFO: 정밀도 : 0.5508684863523573
-2023-03-06 09:52:20,427 automl_tabular modeling.py modeling get_eval INFO: 재현율 : 0.6416184971098265
-2023-03-06 09:52:20,428 automl_tabular modeling.py modeling get_eval INFO: f1 score : 0.5927903871829104
-2023-03-06 09:52:20,430 automl_tabular modeling.py modeling get_eval INFO: roc auc score : 0.8415149076395195
-2023-03-06 09:52:20,436 automl_tabular modeling.py modeling get_eval INFO: 모델별 학습 결과표 생성
-2023-03-06 09:52:20,436 automl_tabular modeling.py modeling get_eval INFO: 변수 중요도 저장
+   area_code  number_vmail_messages  total_day_calls  total_eve_calls  \
+0  -0.523603               1.234883         0.476643        -0.055940   
+1  -0.523603               1.307948         1.124503         0.144867   
+2  -0.523603              -0.591760         0.675985         0.496279   
+3  -0.688834              -0.591760        -1.466936        -0.608159   
+4  -0.523603              -0.591760         0.626149         1.098699   
+
+   total_night_calls  total_intl_calls  customer_service_calls state  churn  
+0          -0.465494         -0.601195               -0.427932    KS      0  
+1           0.147825         -0.601195               -0.427932    OH      0  
+2           0.198935          0.211534               -1.188218    NJ      0  
+3          -0.567714          1.024263                0.332354    OH      0  
+4           1.067803         -0.601195                1.092641    OK      0  
+2023-03-09 19:25:31,882 automl_tabular modeling.py modeling id_modeling INFO: 모델링을 위한 id 분리
+2023-03-09 19:25:31,884 automl_tabular modeling.py modeling train_test_split INFO: train valid 분리
+2023-03-09 19:25:31,888 automl_tabular modeling.py modeling train_test_split INFO: 불균형 처리
+2023-03-09 19:25:31,902 automl_tabular modeling.py modeling train_test_split INFO: train valid 분리 후
+2023-03-09 19:25:31,902 automl_tabular modeling.py modeling train_test_split INFO: X_train.shape: (4548, 19)
+2023-03-09 19:25:31,903 automl_tabular modeling.py modeling train_test_split INFO: X_test.shape : (667, 19)
+2023-03-09 19:25:31,903 automl_tabular modeling.py modeling train_test_split INFO: y_train.shape: (4548, 1)
+2023-03-09 19:25:31,903 automl_tabular modeling.py modeling train_test_split INFO: y_test.shape : (667, 1)
+2023-03-09 19:25:31,903 automl_tabular modeling.py modeling lr_fit_predict INFO: lr 모델 hpo 세팅
+2023-03-09 19:25:31,903 automl_tabular modeling.py modeling lr_fit_predict INFO: 세팅된 parameters : {'C': 1.0, 'class_weight': None, 'solver': 'lbfgs'}
+2023-03-09 19:25:31,903 automl_tabular modeling.py modeling lr_fit_predict INFO: lr 모델 fitting
+2023-03-09 19:25:31,970 automl_tabular modeling.py modeling rf_fit_predict INFO: rf 모델 hpo 세팅
+2023-03-09 19:25:31,971 automl_tabular modeling.py modeling rf_fit_predict INFO: 세팅된 parameters : {'n_estimators': 10, 'max_depth': None, 'min_samples_split': 2, 'min_samples_leaf': 1}
+2023-03-09 19:25:31,971 automl_tabular modeling.py modeling rf_fit_predict INFO: rf 모델 fitting
+2023-03-09 19:25:32,064 automl_tabular modeling.py modeling lgb_fit_predict INFO: lgbm 모델 hpo 세팅
+2023-03-09 19:25:32,064 automl_tabular modeling.py modeling lgb_fit_predict INFO: 세팅된 parameters : {'num_leaves': [60], 'min_child_samples': [10], 'max_depth': [5], 'learning_rate': [0.1], 'reg_alpha': [0.01]}
+2023-03-09 19:25:32,065 automl_tabular modeling.py modeling lgb_fit_predict INFO: lgbm 모델 fitting
+2023-03-09 19:25:32,178 automl_tabular modeling.py modeling get_tabnet_param INFO: tabnet params 세팅
+2023-03-09 19:25:32,184 automl_tabular modeling.py modeling get_tabnet_param INFO: tabnet_param : {'cat_idxs': [0, 1, 2], 'cat_dims': [3333, 2, 2]}
+2023-03-09 19:25:32,185 automl_tabular modeling.py modeling get_tabnet_param INFO: tabnet params를 object storage에 저장
+2023-03-09 19:25:32,186 automl_tabular modeling.py modeling tab_fit_predict INFO: tabnet 모델 세팅
+2023-03-09 19:25:32,187 automl_tabular modeling.py modeling tab_fit_predict INFO: 세팅된 parameters : {'mask_type': 'entmax', 'n_da': 8, 'n_steps': 3, 'gamma': 1.3, 'n_shared': 2, 'lambda_sparse': 0.001, 'patience': 10, 'epochs': 2}
+2023-03-09 19:25:32,188 automl_tabular modeling.py modeling tab_fit_predict INFO: tabnet 모델 fitting
+2023-03-09 19:26:12,307 automl_tabular modeling.py modeling get_best_model INFO: Auto ML 가동
+2023-03-09 19:26:12,308 automl_tabular modeling.py modeling get_best_model INFO: automl_score:{'auroc': {'lr': 0.8369772588522588, 'rf': 0.8913022741147741, 'lgb': 0.9412393162393162, 'tab': 0.6868322649572649}, 'aucpr': {'lr': 0.47131129615224454, 'rf': 0.6703678003444336, 'lgb': 0.871505963462644, 'tab': 0.2971208159359121}, 'accuracy': {'lr': 0.7571214392803598, 'rf': 0.9055472263868066, 'lgb': 0.9505247376311844, 'tab': 0.3493253373313343}, 'precision': {'lr': 0.33175355450236965, 'rf': 0.6627906976744186, 'lgb': 0.8152173913043478, 'tab': 0.15353535353535352}, 'recall': {'lr': 0.7692307692307693, 'rf': 0.6263736263736264, 'lgb': 0.8241758241758241, 'tab': 0.8351648351648352}, 'f1': {'lr': 0.4635761589403973, 'rf': 0.6440677966101694, 'lgb': 0.8196721311475409, 'tab': 0.2593856655290102}}
+2023-03-09 19:26:12,308 automl_tabular modeling.py modeling get_best_model INFO: best_model_name: lgb
+2023-03-09 19:26:12,308 automl_tabular modeling.py modeling get_best_model INFO: best 모델 저장
+2023-03-09 19:26:12,318 automl_tabular modeling.py modeling make_report INFO: 학습 결과를 위한 결과물 생성
+2023-03-09 19:26:12,319 automl_tabular modeling.py modeling get_eval INFO: best 모델 검증
+2023-03-09 19:26:12,325 automl_tabular modeling.py modeling get_eval INFO: 오차행렬 
+ : [[559  17]
+ [ 16  75]]
+2023-03-09 19:26:12,325 automl_tabular modeling.py modeling get_eval INFO: 정확도 : 0.9505247376311844
+2023-03-09 19:26:12,326 automl_tabular modeling.py modeling get_eval INFO: 정밀도 : 0.8152173913043478
+2023-03-09 19:26:12,327 automl_tabular modeling.py modeling get_eval INFO: 재현율 : 0.8241758241758241
+2023-03-09 19:26:12,328 automl_tabular modeling.py modeling get_eval INFO: f1 score : 0.8196721311475409
+2023-03-09 19:26:12,329 automl_tabular modeling.py modeling get_eval INFO: roc auc score : 0.9412393162393162
+2023-03-09 19:26:12,335 automl_tabular modeling.py modeling get_eval INFO: 모델별 학습 결과표 생성
+2023-03-09 19:26:12,335 automl_tabular modeling.py modeling get_eval INFO: 변수 중요도 저장
