@@ -43,12 +43,12 @@ class Modeling:
         self.X_train, self.X_test, self.y_train, self.y_test = self.train_test_split(self.df, self.target, self.over_sampling)
         
         # 결과값 딕셔너리
-        self.score['auroc']     = dict()
-        self.score['aucpr']     = dict()
-        self.score['accuracy']  = dict()
-        self.score['precision'] = dict()
-        self.score['recall']    = dict()
-        self.score['f1']        = dict()
+        self.score['AUROC']     = dict()
+        self.score['AUCPR']     = dict()
+        self.score['정확도']  = dict()
+        self.score['정밀도'] = dict()
+        self.score['재현율']    = dict()
+        self.score['F1']        = dict()
         
         
         #모델링 딕셔너리
@@ -154,12 +154,12 @@ class Modeling:
             self.model['lr'] = lr
             self.test['lr'] = (X_test, y_test)
 
-            self.score['auroc']['lr']     = roc_auc_score(y_test, y_pred_proba)
-            self.score['aucpr']['lr']     = average_precision_score(y_test, y_pred_proba)
-            self.score['accuracy']['lr']  = accuracy_score(y_test, y_pred)
-            self.score['precision']['lr'] = precision_score(y_test, y_pred)
-            self.score['recall']['lr']    = recall_score(y_test, y_pred)
-            self.score['f1']['lr']        = f1_score(y_test, y_pred)
+            self.score['AUROC']['lr']     = np.round(roc_auc_score(y_test, y_pred_proba), 3)
+            self.score['AUCPR']['lr']     = np.round(average_precision_score(y_test, y_pred_proba), 3)
+            self.score['정확도']['lr']    = np.round(accuracy_score(y_test, y_pred), 3)
+            self.score['정밀도']['lr']    = np.round(precision_score(y_test, y_pred), 3)
+            self.score['재현율']['lr']    = np.round(recall_score(y_test, y_pred), 3)
+            self.score['F1']['lr']        = np.round(f1_score(y_test, y_pred), 3)
             
         except:
             self.logger.exception('lr 모델 fitting에 실패했습니다')     
@@ -206,12 +206,12 @@ class Modeling:
             self.model['rf'] = rf
             self.test['rf'] = (X_test, y_test)
 
-            self.score['auroc']['rf']     = roc_auc_score(y_test, y_pred_proba)
-            self.score['aucpr']['rf']     = average_precision_score(y_test, y_pred_proba)
-            self.score['accuracy']['rf']  = accuracy_score(y_test, y_pred)
-            self.score['precision']['rf'] = precision_score(y_test, y_pred)
-            self.score['recall']['rf']    = recall_score(y_test, y_pred)
-            self.score['f1']['rf']        = f1_score(y_test, y_pred)
+            self.score['AUROC']['rf']     = np.round(roc_auc_score(y_test, y_pred_proba), 3)
+            self.score['AUCPR']['rf']     = np.round(average_precision_score(y_test, y_pred_proba), 3)
+            self.score['정확도']['rf']    = np.round(accuracy_score(y_test, y_pred), 3)
+            self.score['정밀도']['rf']    = np.round(precision_score(y_test, y_pred), 3)
+            self.score['재현율']['rf']    = np.round(recall_score(y_test, y_pred), 3)
+            self.score['F1']['rf']        = np.round(f1_score(y_test, y_pred), 3)
             
         except:
             self.logger.exception('rf 모델 fitting에 실패했습니다')     
@@ -258,12 +258,12 @@ class Modeling:
             self.model['lgb'] = lgb
             self.test['lgb'] = (X_test, y_test)
 
-            self.score['auroc']['lgb']     = roc_auc_score(y_test, y_pred_proba)
-            self.score['aucpr']['lgb']     = average_precision_score(y_test, y_pred_proba)
-            self.score['accuracy']['lgb']  = accuracy_score(y_test, y_pred)
-            self.score['precision']['lgb'] = precision_score(y_test, y_pred)
-            self.score['recall']['lgb']    = recall_score(y_test, y_pred)
-            self.score['f1']['lgb']        = f1_score(y_test, y_pred)
+            self.score['AUROC']['lgb']     = np.round(roc_auc_score(y_test, y_pred_proba), 3)
+            self.score['AUCPR']['lgb']     = np.round(average_precision_score(y_test, y_pred_proba), 3)
+            self.score['정확도']['lgb']    = np.round(accuracy_score(y_test, y_pred), 3)
+            self.score['정밀도']['lgb']    = np.round(precision_score(y_test, y_pred), 3)
+            self.score['재현율']['lgb']    = np.round(recall_score(y_test, y_pred), 3)
+            self.score['F1']['lgb']        = np.round(f1_score(y_test, y_pred), 3)
             
         except:
             self.logger.exception('lgbm 모델 fitting에 실패했습니다')     
@@ -360,12 +360,12 @@ class Modeling:
             self.model['tab'] = tab
             self.test['tab'] = (X_test_values, y_test_values)   
             
-            self.score['auroc']['tab']     = roc_auc_score(y_test, y_pred_proba)
-            self.score['aucpr']['tab']     = average_precision_score(y_test, y_pred_proba)
-            self.score['accuracy']['tab']  = accuracy_score(y_test, y_pred)
-            self.score['precision']['tab'] = precision_score(y_test, y_pred)
-            self.score['recall']['tab']    = recall_score(y_test, y_pred)
-            self.score['f1']['tab']        = f1_score(y_test, y_pred)
+            self.score['AUROC']['tab']     = np.round(roc_auc_score(y_test, y_pred_proba), 3)
+            self.score['AUCPR']['tab']     = np.round(average_precision_score(y_test, y_pred_proba), 3)
+            self.score['정확도']['tab']    = np.round(accuracy_score(y_test, y_pred), 3)
+            self.score['정밀도']['tab']    = np.round(precision_score(y_test, y_pred), 3)
+            self.score['재현율']['tab']    = np.round(recall_score(y_test, y_pred), 3)
+            self.score['F1']['tab']        = np.round(f1_score(y_test, y_pred), 3)
             
             
         
@@ -379,7 +379,7 @@ class Modeling:
         self.logger.info('Auto ML 가동')
         self.logger.info(f'automl_score:{self.score}')
         try:
-            best_model_name = max(self.score['auroc'], key=self.score['auroc'].get) 
+            best_model_name = max(self.score['AUROC'], key=self.score['AUROC'].get) 
             best_model = self.model[best_model_name]
             best_test = self.test[best_model_name]
             
@@ -404,17 +404,19 @@ class Modeling:
         
         self.logger.info('학습 결과를 위한 결과물 생성')
         try:
-            report = pd.DataFrame({'model_id' : ['model_id'],
-                                  'create_time': [start_time.strftime('%Y-%m-%d %H:%M:%S')],
-                                  'train_time' : [datetime.datetime.now()-start_time],
-                                   'target' : target,
-                                   'dataset_id' : 'dataset_id',
-                                   'algorithm' : model_type, 
-                                   'goal' : 'data_type',
-                                   'objective_function' : 'AUROC',
-                                   'train/test' : '80/20',
-                                   'over_sampling' : over_sampling,
-                                   'hpo' : hpo})
+            report = pd.DataFrame({'상태' : '완료됨',
+                                  '모델 ID' : ['model_id'],
+                                  '생성 시각': [start_time.strftime('%Y-%m-%d %H:%M:%S')],
+                                  '학습 시간' : [datetime.datetime.now()-start_time],
+                                   '데이터셋 ID' : 'dataset_id',
+                                   '타겟 변수' : target,
+                                   '데이터 분할' : '80/20',
+                                   '알고리즘' : model_type, 
+                                   '목표' : '테이블 형식 분류',
+                                   '최적화 목표' : 'AUROC',
+                                   '불균형 처리 여부' : over_sampling,
+                                   'HPO 여부' : hpo})
+            report = report.T
         
         except:
             self.logger.exception('학습 결과를 위한 결과물 생성 실패했습니다')
@@ -439,11 +441,11 @@ class Modeling:
             self.logger.info(f'roc auc score : {roc_auc_score(y_test, pred_proba)}')
             
             test_score = pd.DataFrame({'오차행렬' : [confusion_matrix(y_test, pred)],
-                                       '정확도' : [accuracy_score(y_test, pred)],
-                                       '정밀도' : [precision_score(y_test, pred)],
-                                       '재현율' : [recall_score(y_test, pred)],
-                                       'f1_score' : [f1_score(y_test, pred)],
-                                       'roc auc score' : [roc_auc_score(y_test, pred_proba)]
+                                       '정확도' : [np.round(accuracy_score(y_test, pred),3)],
+                                       '정밀도' : [np.round(precision_score(y_test, pred),3)],
+                                       '재현율' : [np.round(recall_score(y_test, pred),3)],
+                                       'F1' : [np.round(f1_score(y_test, pred),3)],
+                                       'AUROC' : [np.round(roc_auc_score(y_test, pred_proba),3)]
                                       })
         
                                        
