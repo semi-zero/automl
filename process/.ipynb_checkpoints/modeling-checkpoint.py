@@ -135,7 +135,7 @@ class Modeling:
                 self.logger.info(f'lr HPO 진행 후 parameters: {parameters}')
                 
             else: 
-                parameters ={'C':1.0,  'class_weight':None, 'solver':'lbfgs'}
+                parameters ={'C':1.0,  'class_weight':None, 'solver':'lbfgs', 'max_iter' : 5000}
                 
             self.logger.info(f'세팅된 parameters : {parameters}')
                 
@@ -412,10 +412,11 @@ class Modeling:
                                    '타겟 변수' : target,
                                    '데이터 분할' : '80/20',
                                    '알고리즘' : model_type, 
-                                   '목표' : '분류',
-                                   '목적 함수' : 'AUROC',
+                                   '목표' : '테이블 형식 분류',
+                                   '최적화 목표' : 'AUROC',
                                    '불균형 처리 여부' : over_sampling,
                                    'HPO 여부' : hpo})
+            report = report.T
         
         except:
             self.logger.exception('학습 결과를 위한 결과물 생성 실패했습니다')
@@ -440,11 +441,11 @@ class Modeling:
             self.logger.info(f'roc auc score : {roc_auc_score(y_test, pred_proba)}')
             
             test_score = pd.DataFrame({'오차행렬' : [confusion_matrix(y_test, pred)],
-                                       '정확도' : [accuracy_score(y_test, pred)],
-                                       '정밀도' : [precision_score(y_test, pred)],
-                                       '재현율' : [recall_score(y_test, pred)],
-                                       'F1' : [f1_score(y_test, pred)],
-                                       'AUROC' : [roc_auc_score(y_test, pred_proba)]
+                                       '정확도' : [np.round(accuracy_score(y_test, pred),3)],
+                                       '정밀도' : [np.round(precision_score(y_test, pred),3)],
+                                       '재현율' : [np.round(recall_score(y_test, pred),3)],
+                                       'F1' : [np.round(f1_score(y_test, pred),3)],
+                                       'AUROC' : [np.round(roc_auc_score(y_test, pred_proba),3)]
                                       })
         
                                        

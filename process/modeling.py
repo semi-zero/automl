@@ -135,7 +135,7 @@ class Modeling:
                 self.logger.info(f'lr HPO 진행 후 parameters: {parameters}')
                 
             else: 
-                parameters ={'C':1.0,  'class_weight':None, 'solver':'lbfgs'}
+                parameters ={'C':1.0,  'class_weight':None, 'solver':'lbfgs', 'max_iter' : 5000}
                 
             self.logger.info(f'세팅된 parameters : {parameters}')
                 

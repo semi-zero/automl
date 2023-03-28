@@ -37,7 +37,7 @@ class HyperOptimization:
         
         params_lr = {
         "C": trial.suggest_float('C', 8e-3, 0.1),
-        "max_iter": 1000,
+        "max_iter": 5000,
         #"class_weight": {0:1, 1:trial.suggest_float('class_weight', 1,1.5)},
         "solver": trial.suggest_categorical('solver', ['liblinear']),
         "random_state": 42,

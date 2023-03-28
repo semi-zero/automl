@@ -44,12 +44,15 @@ class Preprocessing:
         
         try:
             obj_data = df.loc[:, obj_var]
-            obj_data.fillna("NaN", inplace=True)
+            if np.sum(obj_data.isnull().sum()) != 0:
+                obj_data.fillna("NaN", inplace=True)
 
             num_data = df.loc[:, num_var] 
-            num_data.fillna(num_data.mean(), inplace=True)
+            if np.sum(num_data.isnull().sum()) != 0:
+                num_data.fillna(num_data.mean(), inplace=True)
 
             df = pd.concat([obj_data, num_data], axis=1)
+            
         except:
             self.logger.exception('결측치 처리에 문제가 발생하였습니다')
             

@@ -5,7 +5,7 @@ import random
 import os
 import numpy as np
 from loggers import logger
-from process import input_data, modeling, preprocess
+from process import input_data, modeling, preprocess, check_reduce
 
 # 1. parser 객체 생성
 parser = argparse.ArgumentParser(description='Click & Select')
@@ -48,8 +48,10 @@ if __name__ == "__main__":
     log_name = 'automl_tabular'
     set_logger(log_name)
     data, var_list, num_var, obj_var = input_data.Data_load(args.PATH, log_name).read_data()
-    df = preprocess.Preprocessing(log_name, data, var_list, num_var, obj_var, args.target, args.unique_id, ).get_df()
-    mm = modeling.Modeling(log_name, df, obj_var = obj_var, target=args.target, unique_id = args.unique_id, model_type=args.model_type, OVER_SAMPLING=args.OVER_SAMPLING, HPO=args.HPO)
+    check = check_reduce.Data_check_reduce(log_name, data, args.target, args.unique_id).check
+    if check == True:
+        df = preprocess.Preprocessing(log_name, data, var_list, num_var, obj_var, args.target, args.unique_id).get_df()
+        mm = modeling.Modeling(log_name, df, obj_var = obj_var, target=args.target, unique_id = args.unique_id, model_type=args.model_type, OVER_SAMPLING=args.OVER_SAMPLING, HPO=args.HPO)
     
     
     # 입력 예시
