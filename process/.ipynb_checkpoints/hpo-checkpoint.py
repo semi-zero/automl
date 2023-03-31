@@ -6,6 +6,7 @@ import torch.nn.functional as F
 from lightgbm import LGBMClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
+import gc
 
 import optuna
 from optuna import Trial
@@ -23,8 +24,7 @@ class HyperOptimization:
         self.y_train = y
         self.model = model
 
-        self.obj = {'lr'  : self.lr_objective,
-                    'rf'  : self.rf_objective,
+        self.obj = {'rf'  : self.rf_objective,
                     'lgb' : self.lgb_objective,
                     'tab' : self.tab_objective}
 
@@ -33,35 +33,39 @@ class HyperOptimization:
         study.optimize(self.obj[self.model], n_trials=10)
         self.best_params = study.best_params
 
-    def lr_objective(self, trial):
+#     def lr_objective(self, trial):
         
-        params_lr = {
-        "C": trial.suggest_float('C', 8e-3, 0.1),
-        "max_iter": 1000,
-        #"class_weight": {0:1, 1:trial.suggest_float('class_weight', 1,1.5)},
-        "solver": trial.suggest_categorical('solver', ['liblinear']),
-        "random_state": 42,
-        }
+#         params_lr = {
+#         "C": trial.suggest_float('C', 8e-3, 0.1),
+#         "max_iter": 5000,
+#         #"class_weight": {0:1, 1:trial.suggest_float('class_weight', 1,1.5)},
+#         "solver": trial.suggest_categorical('solver', ['liblinear']),
+#         "random_state": 42,
+#         }
         
-        folds = StratifiedKFold(n_splits=2, shuffle=True, random_state=42)
-        CV_score_array = []
+#         folds = StratifiedKFold(n_splits=2, shuffle=True, random_state=42)
+#         CV_score_array = []
         
-        for n_fold, (train_index, val_index) in enumerate(folds.split(self.X_train, self.y_train)):
-            train_x, val_x = self.X_train.iloc[train_index, :], self.X_train.iloc[val_index, :]
-            train_y, val_y = self.y_train.iloc[train_index, :], self.y_train.iloc[val_index, :] 
-            lr_clf = LogisticRegression(**params_lr)
-            lr_clf.fit(train_x, train_y) #early_stopping_rounds=100, verbose=False,
+#         for n_fold, (train_index, val_index) in enumerate(folds.split(self.X_train, self.y_train)):
+#             train_x, val_x = self.X_train.iloc[train_index, :], self.X_train.iloc[val_index, :]
+#             train_y, val_y = self.y_train.iloc[train_index, :], self.y_train.iloc[val_index, :] 
+#             lr_clf = LogisticRegression(**params_lr)
+#             lr_clf.fit(train_x, train_y) #early_stopping_rounds=100, verbose=False,
 
             
-            lr_pred = lr_clf.predict_proba(val_x)[:,1]
-            lr_score = roc_auc_score(val_y, lr_pred)
+#             lr_pred = lr_clf.predict_proba(val_x)[:,1]
+#             lr_score = roc_auc_score(val_y, lr_pred)
     
-            CV_score_array.append(lr_score)
-        avg = np.mean(CV_score_array)
+#             CV_score_array.append(lr_score)
         
-        print(f'avg : {avg}')
+#             gc.collect()
         
-        return avg
+        
+#         avg = np.mean(CV_score_array)
+        
+#         print(f'avg : {avg}')
+        
+#         return avg
     
     def rf_objective(self, trial):
         
@@ -86,6 +90,7 @@ class HyperOptimization:
             rf_score = roc_auc_score(val_y, rf_pred)
     
             CV_score_array.append(rf_score)
+            gc.collect()
         avg = np.mean(CV_score_array)
         
         print(f'avg : {avg}')
@@ -124,6 +129,7 @@ class HyperOptimization:
             lgb_score = roc_auc_score(val_y, lgb_pred)
     
             CV_score_array.append(lgb_score)
+            gc.collect()
         avg = np.mean(CV_score_array)
         
         print(f'avg : {avg}')
@@ -168,5 +174,6 @@ class HyperOptimization:
                       patience=trial.suggest_int("patience",low=15,high=30), max_epochs=trial.suggest_int('epochs', 1, 100),
                       eval_metric=['auc'])
             CV_score_array.append(tab_clf.best_cost)
+            gc.collect()
         avg = np.mean(CV_score_array)
         return avg

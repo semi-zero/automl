@@ -1,4 +1,4 @@
-import pandas as pd
++import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import argparse
@@ -81,6 +81,7 @@ class Predict:
                     self.logger.info('데이터 포맷을 맞춰주세요')
             
         try:
+            test_df = test_df.sort_index(axis=1)
             var_list = test_df.columns.tolist() #전체 변수리스트 추출
             num_var = test_df.select_dtypes(include='float').columns.tolist() + test_df.select_dtypes(include='int').columns.tolist() #수치형 변수 추출
             obj_var = [x for x in test_df.columns if x not in num_var] #문자형 변수 추출

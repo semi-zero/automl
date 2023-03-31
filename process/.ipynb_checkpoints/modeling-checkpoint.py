@@ -13,6 +13,8 @@ import joblib
 import json
 import glob
 import logging
+import gc
+
 
 import torch
 import torch.nn as nn
@@ -45,17 +47,22 @@ class Modeling:
         # 결과값 딕셔너리
         self.score['AUROC']     = dict()
         self.score['AUCPR']     = dict()
-        self.score['정확도']  = dict()
-        self.score['정밀도'] = dict()
+        self.score['정확도']    = dict()
+        self.score['정밀도']    = dict()
         self.score['재현율']    = dict()
         self.score['F1']        = dict()
         
         
+        
         #모델링 딕셔너리
-        model_type_dict = {'lr'  : self.lr_process(),
-                           'rf'  : self.rf_process(),
+        model_type_dict = {'rf'  : self.rf_process(),
                            'lgb' : self.lgb_process(),
                            'tab' : self.tab_process()}
+        
+        self.model_name = {'rf' : 'RandomForest',
+                          'lgb': 'LightGBM',
+                          'tab': 'TabNet',
+                          'auto': 'AutoML'}
         
         self.best_model_name, self.best_model, self.best_test = self.get_best_model()
        
@@ -67,8 +74,9 @@ class Modeling:
         #3. 변수 중요도
         self.test_score, self.valid_score, self.fi = self.get_eval(self.best_model_name, self.best_model, self.best_test, self.ori_df, self.unique_id, self.target)
         
-        
-        self.to_result_page()
+        self.report.to_csv('report.csv', index=False)
+        self.test_score.to_csv('test_score.csv', index=False)
+        self.valid_score.to_csv('valid_score.csv', index=False)
         
 
             
@@ -117,52 +125,54 @@ class Modeling:
     
      #################### lR START####################
     
-    def lr_process(self):
-        if (self.model_type == 'lr') or (self.model_type == 'auto'): 
-            self.lr_fit_predict(self.X_train, self.y_train, self.X_test, self.y_test, self.hpo)
+#     def lr_process(self):
+#         if (self.model_type == 'lr') or (self.model_type == 'auto'): 
+#             self.lr_fit_predict(self.X_train, self.y_train, self.X_test, self.y_test, self.hpo)
         
         
-    #모델 fit
-    def lr_fit_predict(self, X_train, y_train, X_test, y_test, HPO):
+#     #모델 fit
+#     def lr_fit_predict(self, X_train, y_train, X_test, y_test, HPO):
         
         
-        self.logger.info('lr 모델 hpo 세팅')
-        try:
+#         self.logger.info('lr 모델 hpo 세팅')
+#         try:
                         
-            if HPO :
-                self.logger.info('lr HPO 진행') 
-                parameters = hpo.HyperOptimization(X = X_train, y = y_train, model = 'lr').best_params
-                self.logger.info(f'lr HPO 진행 후 parameters: {parameters}')
+#             if HPO :
+#                 self.logger.info('lr HPO 진행') 
+#                 parameters = hpo.HyperOptimization(X = X_train, y = y_train, model = 'lr').best_params
+#                 self.logger.info(f'lr HPO 진행 후 parameters: {parameters}')
                 
-            else: 
-                parameters ={'C':1.0,  'class_weight':None, 'solver':'lbfgs', 'max_iter' : 5000}
+#             else: 
+#                 parameters ={'C':1.0,  'class_weight':None, 'solver':'lbfgs', 'max_iter' : 5000}
                 
-            self.logger.info(f'세팅된 parameters : {parameters}')
+#             self.logger.info(f'세팅된 parameters : {parameters}')
                 
-        except:
-            self.logger.exception('lr 모델 hpo 세팅에 실패했습니다') 
+#         except:
+#             self.logger.exception('lr 모델 hpo 세팅에 실패했습니다') 
         
-        #scoring 
-        self.logger.info('lr 모델 fitting')
-        try:
+#         #scoring 
+#         self.logger.info('lr 모델 fitting')
+#         try:
             
-            lr = LogisticRegression(**parameters)
-            lr.fit(X_train, y_train)
-            y_pred_proba = lr.predict_proba(X_test)[:,1]
-            y_pred = lr.predict(X_test)
+#             lr = LogisticRegression(**parameters)
+#             lr.fit(X_train, y_train)
+#             y_pred_proba = lr.predict_proba(X_test)[:,1]
+#             y_pred = lr.predict(X_test)
             
-            self.model['lr'] = lr
-            self.test['lr'] = (X_test, y_test)
+#             self.model['lr'] = lr
+#             self.test['lr'] = (X_test, y_test)
 
-            self.score['AUROC']['lr']     = np.round(roc_auc_score(y_test, y_pred_proba), 3)
-            self.score['AUCPR']['lr']     = np.round(average_precision_score(y_test, y_pred_proba), 3)
-            self.score['정확도']['lr']    = np.round(accuracy_score(y_test, y_pred), 3)
-            self.score['정밀도']['lr']    = np.round(precision_score(y_test, y_pred), 3)
-            self.score['재현율']['lr']    = np.round(recall_score(y_test, y_pred), 3)
-            self.score['F1']['lr']        = np.round(f1_score(y_test, y_pred), 3)
+#             self.score['AUROC']['lr']     = np.round(roc_auc_score(y_test, y_pred_proba), 3)
+#             self.score['AUCPR']['lr']     = np.round(average_precision_score(y_test, y_pred_proba), 3)
+#             self.score['정확도']['lr']    = np.round(accuracy_score(y_test, y_pred), 3)
+#             self.score['정밀도']['lr']    = np.round(precision_score(y_test, y_pred), 3)
+#             self.score['재현율']['lr']    = np.round(recall_score(y_test, y_pred), 3)
+#             self.score['F1']['lr']        = np.round(f1_score(y_test, y_pred), 3)
             
-        except:
-            self.logger.exception('lr 모델 fitting에 실패했습니다')     
+#             gc.collect()
+            
+#         except:
+#             self.logger.exception('lr 모델 fitting에 실패했습니다')     
     
    #################### LR FINISH ####################    
     
@@ -212,6 +222,8 @@ class Modeling:
             self.score['정밀도']['rf']    = np.round(precision_score(y_test, y_pred), 3)
             self.score['재현율']['rf']    = np.round(recall_score(y_test, y_pred), 3)
             self.score['F1']['rf']        = np.round(f1_score(y_test, y_pred), 3)
+            
+            gc.collect()
             
         except:
             self.logger.exception('rf 모델 fitting에 실패했습니다')     
@@ -264,6 +276,8 @@ class Modeling:
             self.score['정밀도']['lgb']    = np.round(precision_score(y_test, y_pred), 3)
             self.score['재현율']['lgb']    = np.round(recall_score(y_test, y_pred), 3)
             self.score['F1']['lgb']        = np.round(f1_score(y_test, y_pred), 3)
+            
+            gc.collect()
             
         except:
             self.logger.exception('lgbm 모델 fitting에 실패했습니다')     
@@ -367,6 +381,8 @@ class Modeling:
             self.score['재현율']['tab']    = np.round(recall_score(y_test, y_pred), 3)
             self.score['F1']['tab']        = np.round(f1_score(y_test, y_pred), 3)
             
+            gc.collect()
+            
             
         
         except:
@@ -411,7 +427,7 @@ class Modeling:
                                    '데이터셋 ID' : 'dataset_id',
                                    '타겟 변수' : target,
                                    '데이터 분할' : '80/20',
-                                   '알고리즘' : model_type, 
+                                   '알고리즘' : self.model_name[model_type], 
                                    '목표' : '테이블 형식 분류',
                                    '최적화 목표' : 'AUROC',
                                    '불균형 처리 여부' : over_sampling,
@@ -440,7 +456,8 @@ class Modeling:
             self.logger.info(f'f1 score : {f1_score(y_test, pred)}')
             self.logger.info(f'roc auc score : {roc_auc_score(y_test, pred_proba)}')
             
-            test_score = pd.DataFrame({'오차행렬' : [confusion_matrix(y_test, pred)],
+            test_score = pd.DataFrame({'Best 모델': [self.model_name[best_model_name]],
+                                        '오차행렬' : [confusion_matrix(y_test, pred)],
                                        '정확도' : [np.round(accuracy_score(y_test, pred),3)],
                                        '정밀도' : [np.round(precision_score(y_test, pred),3)],
                                        '재현율' : [np.round(recall_score(y_test, pred),3)],
@@ -457,6 +474,9 @@ class Modeling:
         
         try:
             valid_score = pd.DataFrame(self.score)
+            valid_score.reset_index(inplace=True)
+            valid_score['index'] = valid_score['index'].apply(lambda x : self.model_name[x])
+            valid_score.rename(columns ={'index' : '학습 모델'}, inplace = True)
             
         except:
             self.logger.exception('모델별 학습 결과표를 저장했습니다')
@@ -496,12 +516,12 @@ class Modeling:
         return test_score, valid_score, fi_df
     
     
-    def to_result_page(self):
+#     def to_result_page(self):
         
-        train_result_page = {'best_model_name': self.best_model_name,
-                            'score': self.score}
+#         train_result_page = {'best_model_name': self.best_model_name,
+#                             'score': self.score}
         
-        save_time = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-        with open('storage/'+str(save_time)+'result_page_path', 'w') as f:
-            json.dump(train_result_page, f)
+#         save_time = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+#         with open('storage/'+str(save_time)+'result_page_path', 'w') as f:
+#             json.dump(train_result_page, f)
         

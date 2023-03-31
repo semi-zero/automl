@@ -27,6 +27,7 @@ class Data_load:
         self.logger.info('변수 분리 시작')
         
         try:
+            df = df.sort_index(axis=1)
             var_list = df.columns.tolist() #전체 변수리스트 추출
             num_var = df.select_dtypes(include='float').columns.tolist() + df.select_dtypes(include='int').columns.tolist() #수치형 변수 추출
             obj_var = [x for x in df.columns if x not in num_var] #문자형 변수 추출
