@@ -458,11 +458,13 @@ class Modeling:
             
             test_score = pd.DataFrame({'Best 모델': [self.model_name[best_model_name]],
                                         '오차행렬' : [confusion_matrix(y_test, pred)],
+                                       'AUROC' : [np.round(roc_auc_score(y_test, pred_proba),3)],
+                                       'AUCPR' : [np.round(average_precision_score(y_test, pred_proba),3)],
                                        '정확도' : [np.round(accuracy_score(y_test, pred),3)],
                                        '정밀도' : [np.round(precision_score(y_test, pred),3)],
                                        '재현율' : [np.round(recall_score(y_test, pred),3)],
-                                       'F1' : [np.round(f1_score(y_test, pred),3)],
-                                       'AUROC' : [np.round(roc_auc_score(y_test, pred_proba),3)]
+                                       'F1' : [np.round(f1_score(y_test, pred),3)]
+                                       
                                       })
         
                                        
